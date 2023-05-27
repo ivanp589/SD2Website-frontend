@@ -1,0 +1,47 @@
+.page1div {
+  /* containing div*/
+  position: relative;
+  width:100%;
+  height: 100%;
+  background-color: red;
+  overflow: hidden;/** hides the scroll bar on page 2*/
+}
+
+.bardiv {
+  position: relative;
+  min-height: 5vmin;
+  height: 5vmin;
+  width: 100%;
+  background-color: blueviolet;
+  
+}
+
+.div1 {
+  align-content: center;
+  width: 50%;
+  min-height: 95vmin;
+  background-color: aliceblue;
+  /* display: flex; */
+  /* justify-content: center; */
+  /* align-items: center; */
+}
+
+   
+text {
+  color: green;
+  position: inherit;
+}
+
+button {
+  height: inherit;
+  /* width:fit-content; */
+}
+
+canvas {
+  width:100%;
+  height:inherit;
+  background-color: red;
+}
+
+
+
