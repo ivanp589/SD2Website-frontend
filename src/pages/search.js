@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Toolbar() {
   const [query, setQuery] = useState('');
@@ -13,12 +14,18 @@ function Toolbar() {
     setQuery(event.target.value);
   };
 
+  const navigate = useNavigate();
+
+  const handleButton3Click = () => {
+     navigate('/Login');
+  };
+
   return (
     <div className="toolbar">
       <div className="buttons">
         <button>Button 1</button>
         <button>Button 2</button>
-        <button>Button 3</button>
+        <button onClick={handleButton3Click}>Login</button>
       </div>
       <div className="search">
         <input
