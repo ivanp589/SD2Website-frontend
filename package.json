@@ -10,7 +10,6 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
-    "47969b32fea693a5": "https://api.observablehq.com/d/47969b32fea693a5@1590.tgz?v=3",
     "google-maps-react": "^2.0.6",
     "i": "^0.3.7",
     "npm": "^9.6.6",
