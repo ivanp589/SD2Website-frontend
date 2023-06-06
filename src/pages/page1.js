@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './pages.css';
 import './toolbar.css';
 import GoogleApiWrapper from './halfmap';
-import Toolbar from './search';
+import Toolbar from './Toolbar';
 
 function P2() {
 

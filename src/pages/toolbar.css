@@ -42,9 +42,6 @@
   border-radius: 5px;
   margin-right: 10px;
   font-size: 16px;
-}
-
-.search input {
   flex: 1;
   max-width: 100%;
 }
@@ -71,4 +68,19 @@
   .search {
     max-width: 60%;
   }
+}
+
+.logo {
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo a {
+  text-decoration: none;
+  color: #333;
 }

@@ -1,6 +1,6 @@
 import './pages.css';
 import GoogleApiWrapper from './fullmap'
-import Toolbar from './search';
+import Toolbar from './Toolbar';
 //fullscreen maps page
 
 
