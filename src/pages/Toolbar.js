@@ -16,18 +16,23 @@ function Toolbar() {
     setQuery(event.target.value);
   };
 
+  const handleButton2Click = () => {
+    navigate('/Upload');
+  };
+
   const handleButton3Click = () => {
     navigate('/Login');
   };
 
   const isLoginOrSignup = location.pathname === '/Login' || location.pathname === '/Signup';
+  const isUploadPage = location.pathname === '/Upload';
 
   return (
     <div className="toolbar">
-      {!isLoginOrSignup && (
+      {!(isLoginOrSignup||isUploadPage) && (
         <div className="buttons">
           <button>Button 1</button>
-          <button>Button 2</button>
+          <button onClick={handleButton2Click}>Upload</button>
           <button onClick={handleButton3Click}>Login</button>
         </div>
       )}
@@ -36,7 +41,7 @@ function Toolbar() {
         <Link to="/1">Road Scan</Link>
       </div>
 
-      {!isLoginOrSignup && (
+      {!(isLoginOrSignup||isUploadPage) && (
         <div className="search">
           <input
             type="text"
