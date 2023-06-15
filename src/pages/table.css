@@ -15,7 +15,7 @@
     color: #333;
     font-weight: bold;
     padding: 10px;
-    text-align: left;
+    text-align: center; /* Center the table headings */
   }
   
   tbody tr:nth-child(even) {
