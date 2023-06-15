@@ -3,6 +3,7 @@ import P0 from './pages/page0'
 import P1 from './pages/page1'
 import P2 from './pages/page2'
 import P3 from './pages/page3';
+import PageWithTable from './pages/page4'
 import {Login,Signup} from './pages/logreg'
 import { BrowserRouter as Router, Route,  Routes } from 'react-router-dom';
 import FileUpload from './pages/upload';
@@ -23,6 +24,8 @@ function App() {
             <Route path="/Login" element={<Login />}></Route>
 
             <Route path="/Signup" element={<Signup />}></Route>
+
+            <Route path="/table" element={<PageWithTable/>}></Route>
 
             <Route path="/Upload" element={<FileUpload />}></Route>
 

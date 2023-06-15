@@ -16,6 +16,16 @@ function Toolbar() {
     setQuery(event.target.value);
   };
 
+  const handleButton1Click = () => {
+    if (location.pathname === '/1') {
+      navigate('/table');
+    } else if (location.pathname === '/table') {
+      navigate('/1');
+    } else {
+      navigate('/table');
+    }
+  };
+
   const handleButton2Click = () => {
     navigate('/Upload');
   };
@@ -26,12 +36,14 @@ function Toolbar() {
 
   const isLoginOrSignup = location.pathname === '/Login' || location.pathname === '/Signup';
   const isUploadPage = location.pathname === '/Upload';
+  const isMapView = location.pathname === '/table';
+  const isTableView = location.pathname === '/1' || location.pathname === '/2';
 
   return (
     <div className="toolbar">
-      {!(isLoginOrSignup||isUploadPage) && (
+      {!(isLoginOrSignup || isUploadPage) && (
         <div className="buttons">
-          <button>Button 1</button>
+          <button onClick={handleButton1Click}>{isTableView ? 'Table View' : 'Map View' }</button>
           <button onClick={handleButton2Click}>Upload</button>
           <button onClick={handleButton3Click}>Login</button>
         </div>
@@ -41,7 +53,7 @@ function Toolbar() {
         <Link to="/1">Road Scan</Link>
       </div>
 
-      {!(isLoginOrSignup||isUploadPage) && (
+      {!(isLoginOrSignup || isUploadPage) && (
         <div className="search">
           <input
             type="text"
