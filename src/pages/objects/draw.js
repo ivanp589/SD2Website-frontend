@@ -14,34 +14,29 @@ import {
 //need to add methods that can add text on top of the scene
 export let scene = new Scene();
 let loc;
-export function init1() {
+export function init1(marker) {
   const renderer = new WebGLRenderer();
   renderer.outputEncoding = sRGBEncoding;
   let rend  = document.getElementById('render')
   rend.innerHTML = ''
   
 
-  // function setLoc(position){
-  //   loc = position;
-  // }
-  // navigator.geolocation.getCurrentPosition((position)=>setLoc(position));
-
   let span = document.createElement('span');
   span.style.position = 'relative';//make absolute
   span.style.width = '100%'
 
   let lab1 = document.createElement('div');
-  lab1.innerText = "left div"
+  lab1.innerText = marker.title
   lab1.style.float = 'left'
   span.appendChild(lab1)
 
   let lab2 = document.createElement('div');
-  lab2.innerText = "right div"
+  lab2.innerText = marker.name
   lab2.style.float = 'right'
   span.appendChild(lab2)
 
   let lab3 = document.createElement('div')
-  lab3.innerText = "bottom div";
+  lab3.innerText = "lat: " + marker.coords.lat+ ", long: "+ marker.coords.lng;
   lab3.style.bottom = "5px"
   lab3.style.position = "absolute"
   lab3.style.textalign = "center";

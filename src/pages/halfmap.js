@@ -1,90 +1,75 @@
-import React, { Component ,} from 'react';
-import { Map ,Marker, GoogleApiWrapper} from 'google-maps-react';
-import { getObject } from './objects/drawObject';
-//this file is the half screen maps page
+import React, { useState, useEffect } from 'react';
+import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
 
-function delay(model) {
-  setTimeout(function() {
-    getObject(model);//draw the object
-  }, 200);
-}
+const homeLatlng = { lat: 28.3877, lng: -81.5554 };
 
-function toCall(model){
-  if (document.readyState === 'complete') {
-    delay(model);
-  } 
-  else {
-    document.onreadystatechange = function () {
-      if (document.readyState === "complete") {
-        delay(model);
-      }
-    }
-  }
-}
-// above two funcitons wait for the element to be loaded
+const fullScreenMapStyles = {
+  width: '100%',
+  height: '100vh',
+};
 
-const homeLatlng = {lat: -1.2884, lng: 36.8233};
-
-const mapStyles = {
+const halfScreenMapStyles = {
   width: '50%',
   height: '95vmin',
-  float:'left',
-  initialCenter: homeLatlng,
-  zoom:{zoom:14},
-  
-}
+  float: 'left',
+};
 
-const mapType = [{
-  featureType: "poi",
-  elementType: "labels",
-  stylers:[{visibility: "off"}]
-}]
+const mapType = [
+  {
+    featureType: 'poi',
+    elementType: 'labels',
+    stylers: [{ visibility: 'off' }],
+  },
+];
 
+const MapContainer = ({ onMarkerClick, google }) => {
+  const [potholeData, setPotholeData] = useState([]);
+  const [mapStyles, setMapStyles] = useState(fullScreenMapStyles);
 
-export class MapContainer extends Component {
-  state = {
-    showingInfoWindow: false,
-    activeMarker: {},
-    selectedPlace: {},
+  useEffect(() => {
+    const fetchPotholeData = async () => {
+      try {
+        const response = await fetch(
+          'https://testbucket1senior-design.s3.amazonaws.com/potholeData.json'
+        );
+        const data = await response.json();
+        setPotholeData(data);
+      } catch (error) {
+        console.error('Error fetching pothole data:', error);
+      }
+    };
+
+    fetchPotholeData();
+  }, []);
+
+  const handleMarkerClick = (marker) => {
+    setMapStyles(halfScreenMapStyles);
+    onMarkerClick(marker);
   };
- 
-  onMarkerClick = (props, marker, e) =>{
 
-    
-    this.setState({
-      selectedPlace: props,
-      activeMarker: marker,
-      showingInfoWindow: true
-    });
-    toCall(marker.model)
-  }
+  return (
+    <Map
+      google={google}
+      styles={mapType}
+      style={mapStyles}
+      initialCenter={homeLatlng}
+      zoom={14}
+    >
+      {potholeData.map((data) => (
+        <Marker
+          key={data.id}
+          title={data.id.toString()}
+          name={data.location}
+          model="sphere"
+          coords= {{ lat: data.coordinates.lat, lng: data.coordinates.long }}
+          position={{ lat: data.coordinates.lat, lng: data.coordinates.long }}
+          onClick={handleMarkerClick}
+        />
+      ))}
+    </Map>
+  );
+};
 
-  render() {
-    return (
-      <Map//no this did not take multiple hours to figure out styles/style
-        google={this.props.google}
-        styles={mapType}
-        style={mapStyles}
-      >
-      <Marker
-        title={'Pothole ID or name'}
-        name={'name of street'}
-        model={"sphere"}
-        position={{lat: 37.778519, lng: -122.405640}}
-        onClick={this.onMarkerClick} />
-      <Marker
-        title={'bofa'}
-        name={'bofa'}
-        model={"other"}
-        position={{lat: 37.798519, lng: -122.505640}}
-        onClick={this.onMarkerClick} />
-
-      </Map>
-    );
-  }
-}
-
-export default GoogleApiWrapper({
-  apiKey: process.env.REACT_APP_GOOGLE_API_KEY
-})(MapContainer);
-
+export default GoogleApiWrapper((props) => ({
+  apiKey: process.env.REACT_APP_GOOGLE_API_KEY,
+}))(MapContainer);

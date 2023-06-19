@@ -4,12 +4,7 @@ import './table.css'
 
 function PageWithTable() {
   const [data, setData] = useState([]);
-  const [potholes, setPotholes] = useState([
-    { id: 1, location: 'Street A', size: 'Medium', date: '2023-06-01' },
-    { id: 2, location: 'Street B', size: 'Large', date: '2023-06-05' },
-    { id: 3, location: 'Street C', size: 'Small', date: '2023-06-08' },
-    // Add more potholes here as needed
-  ]);
+  
 
   useEffect(() => {
     // Fetch data from the database or an API endpoint
@@ -19,11 +14,16 @@ function PageWithTable() {
 
   const fetchData = async () => {
     try {
-      // Perform an API request to fetch the data
-    //   const response = await fetch('your-api-endpoint');
-    //   const data = await response.json();
+      const response = await fetch('https://testbucket1senior-design.s3.amazonaws.com/potholeData.json');
+      const textData = await response.json();
+      try {
+        const potholeData = JSON.parse(textData);
+        console.log(potholeData);
+      } catch (err) {
+        console.error('Error parsing JSON:', err);
+      }
     //   setData(data);
-    setData(potholes);
+    setData(textData);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -43,13 +43,13 @@ function PageWithTable() {
             </tr>
           </thead>
           <tbody>
-            {data.map((item) => (
-              <tr key={item.id}>
-                <td>{item.location}</td>
-                <td>{item.size}</td>
-                <td>{item.date}</td>
-              </tr>
-            ))}
+          {data.map((item) => (
+            <tr key={item.id}>
+              <td>lat: {item.coordinates.lat}, long: {item.coordinates.long}</td>
+              <td>{item.size}</td>
+              <td>{item.date}</td>
+            </tr>
+          ))}
           </tbody>
         </table>
       </div>

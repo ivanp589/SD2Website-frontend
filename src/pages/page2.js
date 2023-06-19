@@ -7,6 +7,7 @@ import Toolbar from './Toolbar';
 
 
 function P2() {
+  
 
   return (
     <div className="page1div"/**this is the containing div*/>
