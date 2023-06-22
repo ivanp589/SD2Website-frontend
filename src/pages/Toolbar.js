@@ -1,15 +1,33 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import Geocode from "react-geocode";
 
-function Toolbar() {
+function Toolbar({updateInitialCenter}) {
   const [query, setQuery] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
 
-  const handleSearch = () => {
-    console.log(`Searching for: ${query}`);
+  const handleSearch = async () => {
+    // console.log(`Searching for: ${query}`);
     // Do something with the search query (e.g. send a search request to a server)
+    if (location.pathname === '/1' || '/2') {
+      // search
+      const city = await geocodeCity(query);
+      updateInitialCenter(city)
+    }
+  };
+
+  const geocodeCity = async (cityName) => {
+    try {
+      Geocode.setApiKey(process.env.REACT_APP_GOOGLE_API_KEY);
+      const response = await Geocode.fromAddress(cityName);
+      const { lat, lng } = response.results[0].geometry.location;
+      return { lat, lng };
+    } catch (error) {
+      console.error('Error geocoding city:', error);
+      return null;
+    }
   };
 
   const handleInputChange = (event) => {

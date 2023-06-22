@@ -1,6 +1,33 @@
 import React, { useState } from 'react';
 import axios from 'axios'
 import Toolbar from './Toolbar';
+import AWS from 'aws-sdk';
+
+const accessKeyId = 'AKIA5AOH4VZHWYBBOF62';
+const secretAccessKey = '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';
+const region = 'us-east-1';
+
+AWS.config.update({ accessKeyId, secretAccessKey, region });
+
+const s3 = new AWS.S3();
+
+const uploadFile = (file, bucketName,key) => {
+
+  const params = {
+    Bucket: bucketName,
+    Body: file,
+    Key: key,
+  };
+  console.log("putting object")
+  s3.putObject(params, (err, data) => {
+    if (err) {
+      console.error('Error uploading file:', err);
+    } else {
+      console.log('File uploaded successfully:', data);
+    }
+  });
+};
+
 
 const FileUpload = () => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -11,21 +38,12 @@ const FileUpload = () => {
 
   const handleUpload = () => {
     if (selectedFile) {
-      // Perform file upload to the database
-      // You can use libraries like Axios or Fetch to send the file to your backend server
-      // Here's an example using Axios:
       const formData = new FormData();
+
       formData.append('file', selectedFile);
 
-      axios.post('/upload', formData)
-        .then((response) => {
-          console.log('File uploaded successfully:', response.data);
-          // Handle success response from the server
-        })
-        .catch((error) => {
-          console.error('Error uploading file:', error);
-          // Handle error response from the server
-        });
+      const bucketName = 'testbucket1senior-design';
+      uploadFile(selectedFile, bucketName,'latlong.txt');//change when you get he chance
     }
   };
 

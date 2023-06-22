@@ -8,6 +8,7 @@ import { getObject } from './objects/drawObject';
 function P2() {
   const [markerSelected, setMarkerSelected] = useState(false);
   const [selectedMarker, setSelectedMarker] = useState(null);
+  const [initialCenter, setInitialCenter] = useState({ lat: 28.3877, lng: -81.5554 });
 
   useEffect(() => {
     if (selectedMarker) {
@@ -20,15 +21,19 @@ function P2() {
     setMarkerSelected(true);
   };
 
+  const updateInitialCenter = (coordinates) => {
+    setInitialCenter(coordinates);
+  };
+
   return (
     <div className="page1div">
-      <Toolbar />
+      <Toolbar  updateInitialCenter={updateInitialCenter}/>
       <div
         id="leftrightdiv"
         style={{ width: '100%', height: '95vmin', display: 'flex' }}
       >
         <div id="map" style={{ flex: '1' }}>
-          <GoogleApiWrapper onMarkerClick={handleMarkerClick} />
+          <GoogleApiWrapper onMarkerClick={handleMarkerClick} center={initialCenter} />
         </div>
         {markerSelected ? (
           <div

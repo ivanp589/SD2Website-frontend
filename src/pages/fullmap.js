@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Map, Marker, InfoWindow, GoogleApiWrapper } from 'google-maps-react';
+import { Map, Marker, InfoWindow, GoogleApiWrapper,Geocode } from 'google-maps-react';
 import { getObject } from './objects/drawObject';
 
 
@@ -25,7 +25,7 @@ const homeLatlng = { lat: 28.3877, lng: -81.5554 };
 
 const fullScreenMapStyles = {
   width: '100%',
-  height: '100vh',
+  height: '95vh',
 };
 
 const mapType = [
@@ -36,10 +36,11 @@ const mapType = [
   },
 ];
 
-const MapContainer = ({ google }) => {
+const MapContainer = ({ google, center }) => {
   const [potholeData, setPotholeData] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [showingInfoWindow, setShowingInfoWindow] = useState(false);
+  const [initialCenter, setInitialCenter] = useState(null);
 
   useEffect(() => {
     const fetchPotholeData = async () => {
@@ -57,6 +58,11 @@ const MapContainer = ({ google }) => {
     fetchPotholeData();
   }, []);
 
+  useEffect(() => {
+    if (center) {
+      setInitialCenter(new google.maps.LatLng(center.lat, center.lng));
+    }
+  }, [center]);
   
 
   const handleMarkerClick = ( props,marker,e) => {
@@ -70,7 +76,7 @@ const MapContainer = ({ google }) => {
       google={google}
       styles={mapType}
       style={fullScreenMapStyles}
-      initialCenter={homeLatlng}
+      center={initialCenter}
       zoom={14}
     >
       {potholeData.map((data) => (
