@@ -1,12 +1,22 @@
 import {
   MeshPhongMaterial,
+  MeshBasicMaterial,
   Mesh,
   BoxGeometry,
-  SphereGeometry
+  SphereGeometry,
+  PointsMaterial,
+  ShaderMaterial,
+  Box3,
+  BufferAttribute,
+  Color,
+  Points
 } from "three";
+//import * as open3d from 'open3d-js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { PLYLoader } from 'three/examples/jsm/loaders/PLYLoader';
 import init1, { scene } from "./draw";
 import obj from './Nefertiti.glb';
+import obj1 from './output_cloud.ply';
 
 export async function getObject(marker) {
   let geometry;
@@ -16,15 +26,61 @@ export async function getObject(marker) {
 
   switch (shape) {
     case 'sphere':
+      // {
+      //   // Load the glTF object
+      //   var loader = new GLTFLoader();
+      //   loader.load(obj, (gltf) => {
+      //     const model = gltf.scene;
+      //     scene.add(model);
+      //   });
+      // }
+      // break;
       {
-        // Load the glTF object
-        var loader = new GLTFLoader();
-        loader.load(obj, (gltf) => {
-          const model = gltf.scene;
-          scene.add(model);
+        // Load the PLY object
+        var loader = new PLYLoader();
+        loader.load(obj1, (geometry) => {
+          // Create an array to store colors for each vertex
+          var colors = [];
+          console.log(geometry)
+          geometry.computeBoundingBox();
+          var minZ = geometry.boundingBox.min.z;
+          var maxZ = geometry.boundingBox.max.z;
+          //console.log(boundingBox)
+          // Iterate over the vertices and assign colors based on the Z position
+          for (let i = 0; i < geometry.attributes.position.array.length; i += 3) {
+            
+           
+            var z = geometry.attributes.position.array[i+2]; // Get the Z position
+            
+            // Assign a color based on the Z position
+            var t = (z - minZ) / (maxZ - minZ);
+
+            var r = Math.round(t * 255);
+            //var g = Math.round((1 - t) * 255);
+            var b = Math.round((1 - t) * 255);
+            var color = new Color(r / 255, 0, b / 255); 
+                  
+            // Store the color in the colors array
+            colors.push(color.r, color.g, color.b);
+          }
+          
+          // Create a buffer attribute for colors
+          var colorAttribute = new BufferAttribute(new Float32Array(colors), 3);
+          
+          // Assign the color attribute to the geometry
+          geometry.setAttribute('color', colorAttribute);
+          
+          // Create a material that uses vertex colors
+          var material = new PointsMaterial({ vertexColors: true });
+          
+          // Create the point cloud with the colored geometry and material
+          var pointCloud = new Points(geometry, material);
+          
+          // Add the point cloud to the scene
+          scene.add(pointCloud);
         });
       }
-      break;
+      break
 
     case 'box':
       {
