@@ -18,6 +18,8 @@ export function init1(marker) {
   const renderer = new WebGLRenderer();
   renderer.outputEncoding = sRGBEncoding;
   let rend  = document.getElementById('render')
+  let text = rend.innerText;
+  rend.innerText = ''
   rend.innerHTML = ''
   
 
@@ -31,7 +33,18 @@ export function init1(marker) {
   span.appendChild(lab1)
 
   let lab2 = document.createElement('div');
-  lab2.innerText = marker.name
+  let str = scene.userData.volume;
+  if (str) {
+    lab2.innerText = str;
+  } else {
+    // Set a delay using setTimeout
+    setTimeout(() => {
+      str = scene.userData.volume;
+      lab2.innerText = str || '';
+    }, 1000);
+  }
+  let pothole = scene.getObjectByName('scene');
+  console.log(scene)
   lab2.style.float = 'right'
   span.appendChild(lab2)
 
@@ -53,7 +66,8 @@ export function init1(marker) {
   renderer.setPixelRatio( window.devicePixelRatio);
   rend.appendChild(renderer.domElement)
 
-  scene = new Scene();
+  // scene = new Scene();
+  scene.children.length = 0;
   scene.background = new Color(0xeeeeee);
 
   const light = new HemisphereLight(0xffffee, 0x444444);

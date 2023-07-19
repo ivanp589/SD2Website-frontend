@@ -9,6 +9,7 @@ function P2() {
   const [markerSelected, setMarkerSelected] = useState(false);
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [initialCenter, setInitialCenter] = useState({ lat: 28.3877, lng: -81.5554 });
+  const [renderName, setRenderName] = useState(null);
 
   useEffect(() => {
     if (selectedMarker) {
@@ -19,6 +20,7 @@ function P2() {
   const handleMarkerClick = (marker) => {
     setSelectedMarker(marker);
     setMarkerSelected(true);
+    setRenderName(marker.name);
   };
 
   const updateInitialCenter = (coordinates) => {
@@ -38,6 +40,7 @@ function P2() {
         {markerSelected ? (
           <div
             id="render"
+            name={renderName}
             style={{
               flex: '1',
               position: 'relative',
@@ -52,7 +55,8 @@ function P2() {
                 transform: 'translate(-50%, -50%)',
                 fontSize: '24px',
               }}
-            ></div>
+            >
+            </div>
           </div>
         ) : null}
       </div>
