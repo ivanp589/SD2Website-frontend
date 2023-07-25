@@ -16,7 +16,7 @@ function App() {
         <div className="content">
           <Routes>
 
-            <Route path="/1" element={<P1 />}></Route>
+            {/* <Route path="/" element={<P1 />}></Route> */}
 
             <Route path="/2" element={<P2 />}></Route>
 
@@ -33,7 +33,7 @@ function App() {
             <Route path="/Upload" element={<FileUpload />}></Route>
 
 
-            <Route path="/" element={<P0 />}/**nested routes should be above its parent, all routes are nested in this one */>
+            <Route path="/" element={<P1 />}/**nested routes should be above its parent, all routes are nested in this one */>
             </Route>
 
           </Routes>
