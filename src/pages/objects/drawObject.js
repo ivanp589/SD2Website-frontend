@@ -17,7 +17,7 @@ import init1, { scene } from "./draw";
 import obj2 from './Nefertiti.glb';
 import obj1 from './output_cloud.ply';
 import obj3 from './test3.ply'
-import obj4 from 'C:\\Users\\kkkk1\\Desktop\\SD1Website\\websiteclient\\src\\pages\\objects\\28.601726_-81.196485.ply'//src\pages\objects\28601706_-81196493.ply'
+import obj4 from './28601706_-81196493.ply'
 // src\pages\objects\28.601726_-81.196485.ply
 
 export async function getObject(marker) {
